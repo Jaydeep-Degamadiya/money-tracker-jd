@@ -184,7 +184,7 @@ export const getFrequencyData = (data: ExpenseData[]) => {
 
 export const getSubCategoryData = (data: ExpenseData[]) => {
   const subCategorySpend = data.reduce((acc, expense) => {
-    acc[expense.subcategory] = (acc[expense.subcategory] || 0) + expense.amount;
+    acc[expense.subCategory] = (acc[expense.subCategory] || 0) + expense.amount;
     return acc;
   }, {} as Record<string, number>);
 

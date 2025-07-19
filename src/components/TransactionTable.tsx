@@ -106,15 +106,12 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
   };
 
   return (
-    <div className="chart-container rounded-2xl p-6">
+    <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6">
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
-        <h3 className="text-xl font-semibold text-white mb-4 lg:mb-0 flex items-center gap-2">
-          <div className="w-2 h-6 gradient-bg-danger rounded-full"></div>
-          Transaction History
-        </h3>
+        <h3 className="text-xl font-semibold text-white mb-4 lg:mb-0">Transaction History</h3>
         <button
           onClick={exportToCSV}
-          className="flex items-center gap-2 px-4 py-3 btn-primary rounded-xl transition-all duration-200"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200"
         >
           <Download className="h-4 w-4" />
           Export CSV
@@ -130,14 +127,14 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
             placeholder="Search transactions..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 input-dark rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <select
           value={filters.category}
           onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-          className="px-4 py-3 input-dark rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Categories</option>
           {uniqueCategories.map(category => (
@@ -148,7 +145,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
         <select
           value={filters.mode}
           onChange={(e) => setFilters({ ...filters, mode: e.target.value })}
-          className="px-4 py-3 input-dark rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Modes</option>
           {uniqueModes.map(mode => (
@@ -159,7 +156,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
         <select
           value={filters.priority}
           onChange={(e) => setFilters({ ...filters, priority: e.target.value })}
-          className="px-4 py-3 input-dark rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Priorities</option>
           {uniquePriorities.map(priority => (
@@ -170,7 +167,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
         <select
           value={filters.avoidable}
           onChange={(e) => setFilters({ ...filters, avoidable: e.target.value })}
-          className="px-4 py-3 input-dark rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="px-3 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Types</option>
           <option value="Yes">Avoidable</option>
@@ -179,10 +176,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto rounded-xl">
-        <table className="w-full text-sm table-dark">
+      <div className="overflow-x-auto">
+        <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-white/10">
+            <tr className="border-b border-gray-700">
               {[
                 { key: 'date', label: 'Date' },
                 { key: 'mode', label: 'Mode' },
@@ -196,7 +193,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
               ].map(({ key, label }) => (
                 <th
                   key={key}
-                  className="text-left py-4 px-4 font-semibold text-gray-300 cursor-pointer hover:text-white transition-colors duration-200"
+                  className="text-left py-3 px-4 font-semibold text-gray-300 cursor-pointer hover:text-white transition-colors duration-200"
                   onClick={() => handleSort(key as SortField)}
                 >
                   <div className="flex items-center gap-2">
@@ -209,42 +206,42 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
           </thead>
           <tbody>
             {paginatedData.map((expense, index) => (
-              <tr key={index} className="border-b border-white/5 hover:bg-white/5 transition-colors duration-200">
-                <td className="py-4 px-4 text-gray-300">{expense.date}</td>
-                <td className="py-4 px-4">
-                  <span className="px-3 py-1 badge-info rounded-full text-xs font-medium">
+              <tr key={index} className="border-b border-gray-700/50 hover:bg-gray-700/30 transition-colors duration-200">
+                <td className="py-3 px-4 text-gray-300">{expense.date}</td>
+                <td className="py-3 px-4">
+                  <span className="px-2 py-1 bg-blue-600 text-blue-100 rounded-full text-xs font-medium">
                     {expense.mode}
                   </span>
                 </td>
-                <td className="py-4 px-4">
-                  <span className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs font-medium">
+                <td className="py-3 px-4">
+                  <span className="px-2 py-1 bg-purple-600 text-purple-100 rounded-full text-xs font-medium">
                     {expense.category}
                   </span>
                 </td>
-                <td className="py-4 px-4 text-gray-300">{expense.subCategory}</td>
-                <td className="py-4 px-4 text-white font-bold">₹{expense.amount.toLocaleString('en-IN')}</td>
-                <td className="py-4 px-4 text-gray-300 max-w-xs truncate">{expense.description}</td>
-                <td className="py-4 px-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                <td className="py-3 px-4 text-gray-300">{expense.subCategory}</td>
+                <td className="py-3 px-4 text-white font-semibold">₹{expense.amount.toLocaleString('en-IN')}</td>
+                <td className="py-3 px-4 text-gray-300 max-w-xs truncate">{expense.description}</td>
+                <td className="py-3 px-4">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     expense.priority === 'High' 
-                      ? 'badge-danger'
+                      ? 'bg-red-600 text-red-100'
                       : expense.priority === 'Medium'
-                      ? 'badge-warning'
-                      : 'badge-success'
+                      ? 'bg-yellow-600 text-yellow-100'
+                      : 'bg-green-600 text-green-100'
                   }`}>
                     {expense.priority}
                   </span>
                 </td>
-                <td className="py-4 px-4">
-                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+                <td className="py-3 px-4">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                     expense.avoidable === 'Yes' 
-                      ? 'badge-danger'
-                      : 'badge-success'
+                      ? 'bg-red-600 text-red-100'
+                      : 'bg-green-600 text-green-100'
                   }`}>
                     {expense.avoidable === 'Yes' ? 'Avoidable' : 'Essential'}
                   </span>
                 </td>
-                <td className="py-4 px-4 text-gray-300">{expense.frequency}</td>
+                <td className="py-3 px-4 text-gray-300">{expense.frequency}</td>
               </tr>
             ))}
           </tbody>
@@ -262,7 +259,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="flex items-center gap-2 px-4 py-2 btn-secondary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               <ChevronLeft className="h-4 w-4" />
               Previous
@@ -275,10 +272,10 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
                   <button
                     key={page}
                     onClick={() => setCurrentPage(page)}
-                    className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+                    className={`px-3 py-2 rounded-lg transition-colors duration-200 ${
                       currentPage === page
-                        ? 'btn-primary'
-                        : 'btn-secondary'
+                        ? 'bg-blue-600 text-white'
+                        : 'bg-gray-700 hover:bg-gray-600 text-gray-300'
                     }`}
                   >
                     {page}
@@ -290,7 +287,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({ data }) => {
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="flex items-center gap-2 px-4 py-2 btn-secondary rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="flex items-center gap-2 px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
             >
               Next
               <ChevronRight className="h-4 w-4" />

@@ -108,11 +108,8 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
   };
 
   return (
-    <div className="chart-container rounded-2xl p-6">
-      <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-        <div className="w-2 h-6 gradient-bg-primary rounded-full"></div>
-        Spend by Category
-      </h3>
+    <div className="bg-gray-800/50 backdrop-blur-sm border border-gray-700/50 rounded-xl p-6">
+      <h3 className="text-xl font-semibold text-white mb-6">Spend by Category</h3>
       <div className="h-80">
         <Doughnut data={enhancedData} options={options} />
       </div>
