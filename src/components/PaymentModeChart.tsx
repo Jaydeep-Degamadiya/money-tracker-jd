@@ -1,8 +1,9 @@
 import React from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 interface PaymentModeChartProps {
   data: any;
@@ -25,9 +26,9 @@ const PaymentModeChart: React.FC<PaymentModeChartProps> = ({ data }) => {
         '#84CC16'  // lime
       ],
       borderWidth: 2,
-      borderColor: '#ffffff',
+      borderColor: '#1f2937',
       hoverBorderWidth: 3,
-      hoverBorderColor: '#ffffff'
+      hoverBorderColor: '#374151'
     }]
   };
 
@@ -35,10 +36,22 @@ const PaymentModeChart: React.FC<PaymentModeChartProps> = ({ data }) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      datalabels: {
+        color: '#ffffff',
+        font: {
+          weight: 'bold' as const,
+          size: 12
+        },
+        formatter: (value: number, context: any) => {
+          const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
+          const percentage = ((value / total) * 100).toFixed(1);
+          return percentage > 5 ? `${percentage}%` : '';
+        }
+      },
       legend: {
         position: 'right' as const,
         labels: {
-          color: '#374151',
+          color: '#e5e7eb',
           padding: 20,
           usePointStyle: true,
           pointStyle: 'circle',
@@ -65,12 +78,12 @@ const PaymentModeChart: React.FC<PaymentModeChartProps> = ({ data }) => {
         }
       },
       tooltip: {
-        backgroundColor: '#ffffff',
-        titleColor: '#111827',
-        bodyColor: '#374151',
-        borderColor: '#e5e7eb',
+        backgroundColor: '#1f2937',
+        titleColor: '#f9fafb',
+        bodyColor: '#e5e7eb',
+        borderColor: '#374151',
         borderWidth: 1,
-        cornerRadius: 8,
+        cornerRadius: 12,
         displayColors: true,
         callbacks: {
           label: (context: any) => {
@@ -83,19 +96,22 @@ const PaymentModeChart: React.FC<PaymentModeChartProps> = ({ data }) => {
         }
       }
     },
-    cutout: '60%',
+    cutout: '65%',
     elements: {
       arc: {
         borderWidth: 2,
         hoverBorderWidth: 3,
-        hoverBorderColor: '#ffffff'
+        hoverBorderColor: '#374151'
       }
     }
   };
 
   return (
-    <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl p-6 card-shadow">
-      <h3 className="text-xl font-semibold text-gray-900 mb-6">Payment Mode Analysis</h3>
+    <div className="chart-container rounded-2xl p-6">
+      <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+        <div className="w-2 h-6 gradient-bg-success rounded-full"></div>
+        Payment Mode Analysis
+      </h3>
       <div className="h-80">
         <Doughnut data={donutData} options={options} />
       </div>

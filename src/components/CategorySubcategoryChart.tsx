@@ -5,11 +5,11 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
-interface CategoryDonutChartProps {
+interface CategorySubcategoryChartProps {
   data: any;
 }
 
-const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
+const CategorySubcategoryChart: React.FC<CategorySubcategoryChartProps> = ({ data }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -18,7 +18,7 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
         color: '#ffffff',
         font: {
           weight: 'bold' as const,
-          size: 12
+          size: 11
         },
         formatter: (value: number, context: any) => {
           const total = context.dataset.data.reduce((a: number, b: number) => a + b, 0);
@@ -30,11 +30,11 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
         position: 'right' as const,
         labels: {
           color: '#e5e7eb',
-          padding: 20,
+          padding: 16,
           usePointStyle: true,
           pointStyle: 'circle',
           font: {
-            size: 12,
+            size: 11,
             family: 'Inter'
           },
           generateLabels: (chart: any) => {
@@ -46,8 +46,8 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
               return {
                 text: `${label} (${percentage}%)`,
                 fillStyle: data.datasets[0].backgroundColor[index],
-                strokeStyle: data.datasets[0].borderColor || '#1f2937',
-                lineWidth: data.datasets[0].borderWidth || 2,
+                strokeStyle: '#1f2937',
+                lineWidth: 2,
                 hidden: false,
                 index: index
               };
@@ -85,22 +85,24 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
     }
   };
 
-  // Enhanced color palette for dark theme
+  // Enhanced color palette for subcategories
   const enhancedData = {
     ...data,
     datasets: [{
       ...data.datasets[0],
       backgroundColor: [
-        '#8B5CF6', // purple
-        '#10B981', // emerald
-        '#F59E0B', // amber
-        '#EF4444', // red
-        '#3B82F6', // blue
-        '#EC4899', // pink
-        '#06B6D4', // cyan
-        '#84CC16', // lime
-        '#F97316', // orange
-        '#8B5A2B'  // brown
+        '#A855F7', // purple-500
+        '#14B8A6', // teal-500
+        '#F97316', // orange-500
+        '#EF4444', // red-500
+        '#3B82F6', // blue-500
+        '#EC4899', // pink-500
+        '#06B6D4', // cyan-500
+        '#84CC16', // lime-500
+        '#F59E0B', // amber-500
+        '#8B5A2B', // brown
+        '#6366F1', // indigo-500
+        '#10B981'  // emerald-500
       ],
       borderColor: '#1f2937',
       borderWidth: 2
@@ -110,8 +112,8 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
   return (
     <div className="chart-container rounded-2xl p-6">
       <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
-        <div className="w-2 h-6 gradient-bg-primary rounded-full"></div>
-        Spend by Category
+        <div className="w-2 h-6 gradient-bg-secondary rounded-full"></div>
+        Sub Category Breakdown
       </h3>
       <div className="h-80">
         <Doughnut data={enhancedData} options={options} />
@@ -120,4 +122,4 @@ const CategoryDonutChart: React.FC<CategoryDonutChartProps> = ({ data }) => {
   );
 };
 
-export default CategoryDonutChart;
+export default CategorySubcategoryChart;

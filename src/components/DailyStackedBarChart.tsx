@@ -9,8 +9,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
 interface DailyStackedBarChartProps {
   data: any;
@@ -21,10 +22,22 @@ const DailyStackedBarChart: React.FC<DailyStackedBarChartProps> = ({ data }) => 
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      datalabels: {
+        color: '#ffffff',
+        font: {
+          weight: 'bold' as const,
+          size: 10
+        },
+        formatter: (value: number) => {
+          return value > 20 ? `₹${value}` : '';
+        },
+        anchor: 'center' as const,
+        align: 'center' as const
+      },
       legend: {
         position: 'top' as const,
         labels: {
-          color: '#374151',
+          color: '#e5e7eb',
           padding: 20,
           usePointStyle: true,
           pointStyle: 'circle',
@@ -35,12 +48,12 @@ const DailyStackedBarChart: React.FC<DailyStackedBarChartProps> = ({ data }) => 
         }
       },
       tooltip: {
-        backgroundColor: '#ffffff',
-        titleColor: '#111827',
-        bodyColor: '#374151',
-        borderColor: '#e5e7eb',
+        backgroundColor: '#1f2937',
+        titleColor: '#f9fafb',
+        bodyColor: '#e5e7eb',
+        borderColor: '#374151',
         borderWidth: 1,
-        cornerRadius: 8,
+        cornerRadius: 12,
         callbacks: {
           label: (context: any) => {
             const label = context.dataset.label || '';
@@ -54,11 +67,11 @@ const DailyStackedBarChart: React.FC<DailyStackedBarChartProps> = ({ data }) => 
       x: {
         stacked: true,
         grid: {
-          color: '#f1f5f9',
-          borderColor: '#e2e8f0'
+          color: '#374151',
+          borderColor: '#4b5563'
         },
         ticks: {
-          color: '#64748b',
+          color: '#9ca3af',
           font: {
             family: 'Inter'
           }
@@ -67,11 +80,11 @@ const DailyStackedBarChart: React.FC<DailyStackedBarChartProps> = ({ data }) => 
       y: {
         stacked: true,
         grid: {
-          color: '#f1f5f9',
-          borderColor: '#e2e8f0'
+          color: '#374151',
+          borderColor: '#4b5563'
         },
         ticks: {
-          color: '#64748b',
+          color: '#9ca3af',
           font: {
             family: 'Inter'
           },
@@ -81,17 +94,34 @@ const DailyStackedBarChart: React.FC<DailyStackedBarChartProps> = ({ data }) => 
     },
     elements: {
       bar: {
-        borderRadius: 4,
+        borderRadius: 6,
         borderSkipped: false,
       }
     }
   };
 
+  // Enhanced data with better colors for dark theme
+  const enhancedData = {
+    ...data,
+    datasets: data.datasets.map((dataset: any, index: number) => ({
+      ...dataset,
+      backgroundColor: [
+        '#8B5CF6', '#10B981', '#F59E0B', '#EF4444', 
+        '#3B82F6', '#EC4899', '#06B6D4', '#84CC16'
+      ][index % 8],
+      borderColor: '#1f2937',
+      borderWidth: 1
+    }))
+  };
+
   return (
-    <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl p-6 card-shadow">
-      <h3 className="text-xl font-semibold text-gray-900 mb-6">Daily Spend by Category</h3>
+    <div className="chart-container rounded-2xl p-6">
+      <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+        <div className="w-2 h-6 gradient-bg-warning rounded-full"></div>
+        Daily Spend by Category
+      </h3>
       <div className="h-80">
-        <Bar data={data} options={options} />
+        <Bar data={enhancedData} options={options} />
       </div>
     </div>
   );

@@ -9,8 +9,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ChartDataLabels);
 
 interface FrequencyChartProps {
   data: any;
@@ -21,16 +22,28 @@ const FrequencyChart: React.FC<FrequencyChartProps> = ({ data }) => {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
+      datalabels: {
+        color: '#ffffff',
+        font: {
+          weight: 'bold' as const,
+          size: 11
+        },
+        formatter: (value: number) => {
+          return `₹${value}`;
+        },
+        anchor: 'end' as const,
+        align: 'top' as const
+      },
       legend: {
         display: false
       },
       tooltip: {
-        backgroundColor: '#ffffff',
-        titleColor: '#111827',
-        bodyColor: '#374151',
-        borderColor: '#e5e7eb',
+        backgroundColor: '#1f2937',
+        titleColor: '#f9fafb',
+        bodyColor: '#e5e7eb',
+        borderColor: '#374151',
         borderWidth: 1,
-        cornerRadius: 8,
+        cornerRadius: 12,
         callbacks: {
           label: (context: any) => {
             const value = context.parsed.y;
@@ -42,11 +55,11 @@ const FrequencyChart: React.FC<FrequencyChartProps> = ({ data }) => {
     scales: {
       x: {
         grid: {
-          color: '#f1f5f9',
-          borderColor: '#e2e8f0'
+          color: '#374151',
+          borderColor: '#4b5563'
         },
         ticks: {
-          color: '#64748b',
+          color: '#9ca3af',
           font: {
             family: 'Inter'
           }
@@ -54,11 +67,11 @@ const FrequencyChart: React.FC<FrequencyChartProps> = ({ data }) => {
       },
       y: {
         grid: {
-          color: '#f1f5f9',
-          borderColor: '#e2e8f0'
+          color: '#374151',
+          borderColor: '#4b5563'
         },
         ticks: {
-          color: '#64748b',
+          color: '#9ca3af',
           font: {
             family: 'Inter'
           },
@@ -74,11 +87,27 @@ const FrequencyChart: React.FC<FrequencyChartProps> = ({ data }) => {
     }
   };
 
+  // Enhanced data with gradient colors
+  const enhancedData = {
+    ...data,
+    datasets: [{
+      ...data.datasets[0],
+      backgroundColor: '#10B981',
+      borderColor: '#059669',
+      borderWidth: 2,
+      hoverBackgroundColor: '#34D399',
+      hoverBorderColor: '#10B981'
+    }]
+  };
+
   return (
-    <div className="bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl p-6 card-shadow">
-      <h3 className="text-xl font-semibold text-gray-900 mb-6">Spend by Frequency</h3>
+    <div className="chart-container rounded-2xl p-6">
+      <h3 className="text-xl font-semibold text-white mb-6 flex items-center gap-2">
+        <div className="w-2 h-6 gradient-bg-info rounded-full"></div>
+        Spend by Frequency
+      </h3>
       <div className="h-80">
-        <Bar data={data} options={options} />
+        <Bar data={enhancedData} options={options} />
       </div>
     </div>
   );
