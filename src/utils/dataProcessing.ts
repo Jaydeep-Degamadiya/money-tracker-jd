@@ -181,3 +181,30 @@ export const getFrequencyData = (data: ExpenseData[]) => {
     }]
   };
 };
+
+export const getSubCategoryData = (data: ExpenseData[]) => {
+  const subCategorySpend = data.reduce((acc, expense) => {
+    acc[expense.subcategory] = (acc[expense.subcategory] || 0) + expense.amount;
+    return acc;
+  }, {} as Record<string, number>);
+
+  return {
+    labels: Object.keys(subCategorySpend),
+    datasets: [{
+      data: Object.values(subCategorySpend),
+      backgroundColor: [
+        '#A78BFA', // light purple
+        '#34D399', // light emerald
+        '#FBBF24', // light amber
+        '#F87171', // light red
+        '#60A5FA', // light blue
+        '#A78B5A', // light brown
+        '#F472B6', // light pink
+        '#9CA3AF'  // light gray
+      ],
+      borderWidth: 0,
+      hoverBorderWidth: 2,
+      hoverBorderColor: '#ffffff'
+    }]
+  };
+};
